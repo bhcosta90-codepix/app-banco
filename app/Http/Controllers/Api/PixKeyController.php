@@ -10,8 +10,12 @@ use Illuminate\Http\Request;
 
 class PixKeyController extends Controller
 {
-    public function store(Request $request, PixKeyService $pixKeyService, AccountService $accountService, string $account)
-    {
+    public function store(
+        Request $request,
+        PixKeyService $pixKeyService,
+        AccountService $accountService,
+        string $account
+    ) {
         $objAccount = $accountService->find($account);
         $obj = $pixKeyService->newPixKey($objAccount, $request->kind, $request->key);
 

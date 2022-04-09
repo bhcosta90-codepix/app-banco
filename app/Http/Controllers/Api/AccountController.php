@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AccountResource;
-use App\Models\Bank;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
 
