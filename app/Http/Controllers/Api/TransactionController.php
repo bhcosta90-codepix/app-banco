@@ -12,16 +12,15 @@ use Illuminate\Http\Request;
 class TransactionController extends Controller
 {
     public function store(
-        string $kind,
-        string $key,
+        string $account,
         Request $request,
         CodePixService $codePixService,
         TransactionService $transactionService,
         AccountService $accountService
     ) {
-        $objAccount = $accountService->findExternalId($request->account);
-        $data = $codePixService->newTransaction($request->account, $kind, $key, $request->amount);
-        $obj = $transactionService->newTransaction($objAccount, $kind, $key, $data);
+        $objAccount = $accountService->find($account);
+        $data = $codePixService->newTransaction($objAccount, $request->kind, $request->key, $request->amount);
+        $obj = $transactionService->newTransaction($objAccount, $request->kind, $request->key, $data);
 
         return new TransactionResource($obj);
     }

@@ -63,7 +63,7 @@ final class CodePixService
         };
     }
 
-    public function newTransaction(string $account, string $kind = null, string $key = null, float $amount = null)
+    public function newTransaction(Account $account, string $kind = null, string $key = null, float $amount = null)
     {
 
         if($kind == 'random' && empty($key)) {
@@ -73,7 +73,7 @@ final class CodePixService
         $response = Http::acceptJson()->withHeaders([
             'Authorization' => "Bearer {$this->credential}:{$this->secret}"
         ])->post($this->endpoint . "/api/transaction/{$kind}/{$key}", $data = [
-            'account' => $account,
+            'account' => $account->external_id,
             'amount' => $amount,
         ]);
 

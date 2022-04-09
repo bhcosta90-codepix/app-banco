@@ -14,8 +14,16 @@ class PixKeyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $ret = [
             'id' => $this->uuid,
         ];
+
+        if (empty($request->key)) {
+            $ret += [
+                'key' => $this->key
+            ];
+        }
+
+        return $ret;
     }
 }

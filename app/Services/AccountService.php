@@ -23,9 +23,4 @@ final class AccountService
     {
         return $this->repository->where('uuid', $uuid)->first();
     }
-
-    public function findExternalId(string $uuid)
-    {
-        return $this->repository->where('external_id', $uuid)->firstOrFail();
-    }
 }

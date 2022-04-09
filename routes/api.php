@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/account', [AccountController::class, 'store']);
+Route::post('/{account}/transaction', [TransactionController::class, 'store']);
+
 Route::post('/pixkey/{account}', [PixKeyController::class, 'store']);
-Route::post('/transaction/{kind}/{key}', [TransactionController::class, 'store']);
 Route::get('/transaction/{id}', [TransactionController::class, 'show']);
