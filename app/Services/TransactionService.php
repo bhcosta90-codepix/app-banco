@@ -27,15 +27,18 @@ final class TransactionService
         ] + $data);
     }
 
-    public function transactionConfirmed(string $uuid){
+    public function transactionConfirmed(string $uuid)
+    {
         throw new Exception('do not implemented ' . __FUNCTION__);
     }
 
-    public function transactionApprroved(string $uuid){
+    public function transactionApprroved(string $uuid)
+    {
         throw new Exception('do not implemented ' . __FUNCTION__);
     }
 
-    public function find(string $uuid) {
-        throw new Exception('do not implemented ' . __FUNCTION__);
+    public function find(string $uuid)
+    {
+        return $this->repository->where('uuid', $uuid)->first();
     }
 }

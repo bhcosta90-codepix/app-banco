@@ -25,4 +25,9 @@ class TransactionController extends Controller
 
         return new TransactionResource($obj);
     }
+
+    public function show(TransactionService $transactionService, string $uuid)
+    {
+        return new TransactionResource($transactionService->find($uuid));
+    }
 }

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('pix_key_kind');
             $table->string('pix_key_key');
             $table->unsignedDouble('amount');
-            $table->enum('moviment', ['credit', 'debit']);
+            $table->enum('moviment', ['debit', 'credit']);
             $table->string('status')->default(TransactionService::TRANSACTION_PENDING);
             $table->string('description')->nullable();
             $table->string('cancel_description')->nullable();
