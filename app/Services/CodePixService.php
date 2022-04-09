@@ -37,7 +37,7 @@ final class CodePixService
             401 => abort(401, $response->json('message')),
             422 => throw ValidationException::withMessages($response->json('errors')),
             201 => ['external_id' => $response->json('data.id')] + $data,
-            default => dd($response->body(), $response->status()),
+            default => dd("codepix", $response->body(), $response->status()),
         };
     }
 
@@ -59,12 +59,29 @@ final class CodePixService
             401 => abort(401, $response->json('message')),
             422 => throw ValidationException::withMessages($response->json('errors')),
             201 => ['external_id' => $response->json('data.id')] + $data,
-            default => dd($response->body(), $response->status()),
+            default => dd("codepix", $response->body(), $response->status()),
         };
     }
 
-    public function find(string $uuid)
+    public function newTransaction(string $account, string $kind = null, string $key = null, float $amount = null)
     {
-        return $this->repository->where('uuid', $uuid)->first();
+
+        if($kind == 'random' && empty($key)) {
+            $key = (string) str()->uuid();
+        }
+
+        $response = Http::acceptJson()->withHeaders([
+            'Authorization' => "Bearer {$this->credential}:{$this->secret}"
+        ])->post($this->endpoint . "/api/transaction/{$kind}/{$key}", $data = [
+            'account' => $account,
+            'amount' => $amount,
+        ]);
+
+        return match ($response->status()) {
+            401 => abort(401, $response->json('message')),
+            422 => throw ValidationException::withMessages($response->json('errors')),
+            201 => ['external_id' => $response->json('data.id')] + $data,
+            default => dd("codepix", $response->body(), $response->status()),
+        };
     }
 }

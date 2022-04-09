@@ -9,12 +9,13 @@ use Illuminate\Validation\ValidationException;
 
 class Transaction extends Model
 {
-    use HasFactory, Traits\ValidateEntity, Traits\ValidateEntity;
+    use HasFactory, Traits\Uuid, Traits\ValidateEntity;
 
     public $fillable = [
         'external_id',
         'account_from_id',
-        'pix_key_id',
+        'pix_key_kind',
+        'pix_key_key',
         'amount',
         'description',
     ];
@@ -29,7 +30,8 @@ class Transaction extends Model
         return [
             'external_id' => 'required|uuid',
             'account_from_id' => 'required',
-            'pix_key_id' => 'required',
+            'pix_key_kind' => 'required',
+            'pix_key_key' => 'required',
             'amount' => 'required|min:0|numeric',
             'description' => 'nullable|max:120'
         ];

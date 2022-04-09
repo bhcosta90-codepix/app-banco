@@ -19,7 +19,8 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->uuid('external_id')->unique();
             $table->foreignId('account_from_id')->constrained('accounts');
-            $table->foreignId('pix_key_id')->constrained('pix_keys');
+            $table->string('pix_key_kind');
+            $table->string('pix_key_key');
             $table->unsignedDouble('amount');
             $table->enum('moviment', ['credit', 'debit']);
             $table->string('status')->default(TransactionService::TRANSACTION_PENDING);

@@ -18,9 +18,13 @@ final class TransactionService
         //
     }
 
-    public function newTransaction(Account $account, PixKey $pixKey, float $amount, string $description = null)
+    public function newTransaction(Account $account, $kind, $key, array $data = [])
     {
-        throw new Exception('do not implemented ' . __FUNCTION__);
+        return $this->repository->create([
+            'account_from_id' => $account->id,
+            'pix_key_kind' => $kind,
+            'pix_key_key' => $key,
+        ] + $data);
     }
 
     public function transactionConfirmed(string $uuid){

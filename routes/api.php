@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\PixKeyController;
+use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/account', [AccountController::class, 'store']);
 Route::post('/pixkey/{account}', [PixKeyController::class, 'store']);
+Route::post('/transaction/{kind}/{key}', [TransactionController::class, 'store']);
