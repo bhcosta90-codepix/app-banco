@@ -25,6 +25,10 @@ final class RabbitMQPubSub implements PubSubContract
             $data = json_decode($message->body, true);
 
             try {
+                if (app()->environment('local')) {
+                    Log::info(['rabbitmq', $data]);
+                }
+
                 $action($data);
                 $resolver->acknowledge($message);
             } catch (Exception $e) {

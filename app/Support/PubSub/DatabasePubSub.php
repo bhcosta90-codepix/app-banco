@@ -4,6 +4,7 @@ namespace App\Support\PubSub;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 final class DatabasePubSub implements PubSubContract
 {
@@ -29,10 +30,15 @@ final class DatabasePubSub implements PubSubContract
 
             foreach ($result as $rs) {
                 $data = json_decode($rs->data, true);
+
+                if (app()->environment('local')) {
+                    Log::info(['database', $data]);
+                }
+
                 try {
                     $action($data);
                     DB::table('pubsub')->select()->where('id', $rs->id)->delete();
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     DB::table('pubsub')->select()->where('id', $rs->id)->update([
                         'status' => 'reject',
                     ]);

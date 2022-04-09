@@ -33,16 +33,12 @@ final class TransactionService
         ] + $data);
     }
 
-    public function transactionConfirmed(string $uuid)
+    public function transactionConfirmed(Transaction $rs)
     {
-        $obj = $this->repository->where('external_id', $uuid)->where('status', self::TRANSACTION_PENDING)->firstOrFail();
-        $obj->status = TransactionService::TRANSACTION_CONFIRMED;
-        $obj->save();
+        $rs->status = TransactionService::TRANSACTION_CONFIRMED;
+        $rs->save();
 
-        /*app('pubsub')->publish('approved_transaction', [
-            'external_id' => $uuid,
-            'internal_id' => $obj->uuid,
-        ]);*/
+        return $rs;
     }
 
     public function transactionApprroved(Transaction $rs)
@@ -65,8 +61,13 @@ final class TransactionService
         return $this->repository->where('uuid', $uuid)->first();
     }
 
-    public function getAllByExternalId(string $uuid)
+    public function getAllByExternalId(string $uuid, string $status = TransactionService::TRANSACTION_PENDING)
     {
-        return $this->repository->where('external_id', $uuid)->get();
+        return $this->repository->where('external_id', $uuid)->where('status', $status)->get();
+    }
+
+    public function getByExternalId(string $uuid, string $status = TransactionService::TRANSACTION_PENDING)
+    {
+        return $this->repository->where('external_id', $uuid)->where('status', $status)->first();
     }
 }
