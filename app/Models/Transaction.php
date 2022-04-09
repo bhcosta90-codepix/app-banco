@@ -9,10 +9,10 @@ use Illuminate\Validation\ValidationException;
 
 class Transaction extends Model
 {
-    use HasFactory, Traits\ValidateEntity;
+    use HasFactory, Traits\ValidateEntity, Traits\ValidateEntity;
 
     public $fillable = [
-        'uuid',
+        'external_id',
         'account_from_id',
         'pix_key_id',
         'amount',
@@ -27,21 +27,12 @@ class Transaction extends Model
     public static function rulesUpdated(): array|null
     {
         return [
-            'uuid' => 'required|uuid',
+            'external_id' => 'required|uuid',
             'account_from_id' => 'required',
             'pix_key_id' => 'required',
             'amount' => 'required|min:0|numeric',
             'description' => 'nullable|max:120'
         ];
-    }
-
-    public function validateCreated()
-    {
-        if ($this->pixKey->account_id == $this->account_from_id) {
-            throw ValidationException::withMessages([
-                'pix_key_id' => "Você não pode transferir para a mesma conta bancária",
-            ]);
-        }
     }
 
     public function account_from()

@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
+            $table->uuid('external_id')->unique();
             $table->foreignId('account_from_id')->constrained('accounts');
             $table->foreignId('pix_key_id')->constrained('pix_keys');
             $table->unsignedDouble('amount');

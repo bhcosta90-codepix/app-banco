@@ -27,13 +27,16 @@ class PixKey extends Model
         }
 
         $ret = [
+            'external_id' => 'required|uuid',
             'kind' => 'required|in:' . implode(',', PixKey::KINDS),
-            'key' => ['required', 'min:3', 'max:150'],
             'account_id' => 'required|exists:accounts,id'
         ];
 
-        if (!empty($data['kind']) && $data['kind'] == 'random') {
-            $ret['key'][] = 'uuid';
+        if (!empty($data['kind'])) {
+            match($data['kind']) {
+                'random' => $ret['key'] = 'nullable|uuid',
+                default => $ret['key'] = 'required|min:3|max:30',
+            };
         }
 
         return $ret;
@@ -42,6 +45,7 @@ class PixKey extends Model
     const KINDS = ['email', 'cpf', 'random'];
 
     public $fillable = [
+        'external_id',
         'account_id',
         'kind',
         'key'

@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('pix_keys', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
+            $table->uuid('external_id')->unique();
             $table->foreignId('account_id')->constrained('accounts');
             $table->enum('kind', PixKey::KINDS);
             $table->string('key');

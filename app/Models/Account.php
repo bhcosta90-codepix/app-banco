@@ -10,6 +10,7 @@ class Account extends Model
     use HasFactory, Traits\Uuid, Traits\ValidateEntity;
 
     public $fillable = [
+        'external_id',
         'name',
         'number',
         'amount',
@@ -35,6 +36,7 @@ class Account extends Model
     public static function rulesUpdated(): ?array
     {
         return [
+            'external_id' => 'nullable',
             'name' => 'required|min:3|max:120',
             'number' => 'required|min:3|max:150',
             'amount' => 'nullable|numeric',

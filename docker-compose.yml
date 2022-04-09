@@ -17,10 +17,6 @@ services:
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-            BANK_BGCOLOR: "#000"
-            BANK_TEXTCOLOR: "#FFF"
-            BANK_CREDENTIAL: a1abd599d3a367dbce524ad3af622429da632b19
-            BANK_SECRET: 153e62529a558a0d7cdadecabd0c4e799f32ad78
         volumes:
             - '.:/var/www/html'
         networks:
