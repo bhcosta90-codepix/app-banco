@@ -25,17 +25,17 @@ services:
             - mysql
             - redis
 
-    banco_supervisor:
-        image: bhcosta90/php:8.1.cron
-        security_opt:
-            - apparmor:unconfined
-        volumes:
-            - ./:/var/www/html
-            - ./supervisor:/etc/supervisor/conf.d/
-        extra_hosts:
-            - 'host.docker.internal:172.17.0.1'
-        networks:
-            - sail
+    # banco_supervisor:
+    #     image: bhcosta90/php:8.1.cron
+    #     security_opt:
+    #         - apparmor:unconfined
+    #     volumes:
+    #         - ./:/var/www/html
+    #         - ./supervisor:/etc/supervisor/conf.d/
+    #     extra_hosts:
+    #         - 'host.docker.internal:172.17.0.1'
+    #     networks:
+    #         - sail
 
     mysql:
         image: 'mysql/mysql-server:8.0'

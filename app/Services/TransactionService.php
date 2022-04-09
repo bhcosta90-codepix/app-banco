@@ -45,9 +45,19 @@ final class TransactionService
         ]);
     }
 
-    public function transactionApprroved(string $uuid)
+    public function transactionApprroved(Transaction $rs)
     {
-        throw new Exception('do not implemented ' . __FUNCTION__);
+        $rs->status = TransactionService::TRANSACTION_APPROVED;
+        $rs->save();
+
+        match($rs->moviment) {
+            'credit' => $rs->account_from->increment('amount', $rs->amount),
+            'debit' => $rs->account_from->decrement('amount', $rs->amount),
+        };
+
+        $rs->account_from->save();
+
+        return $rs;
     }
 
     public function find(string $uuid)

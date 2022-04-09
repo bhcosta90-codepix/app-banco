@@ -4,6 +4,7 @@ namespace App\Console\Commands\Transaction;
 
 use App\Models\Transaction;
 use App\Services\PixKeyService;
+use App\Services\TransactionService;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -42,7 +43,7 @@ class NewTransactionConfirmed extends Command
                 'account_from_id' => $objPix->account->id,
                 'amount' => $data['amount'],
                 'moviment' => 'credit',
-                'status' => $data['status'],
+                'status' => TransactionService::TRANSACTION_PENDING,
                 'description' => $data['description'],
                 'cancel_description' => $data['cancel_description'],
             ];

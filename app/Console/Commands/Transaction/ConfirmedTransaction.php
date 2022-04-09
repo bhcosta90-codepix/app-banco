@@ -31,7 +31,6 @@ class ConfirmedTransaction extends Command
         app('pubsub')->consume('queue_confirmed_transaction_' . config('codepix.credential'), [
             'confirm_transaction.' . config('codepix.credential') . '.confirmed'
         ], function ($data) use ($transactionService) {
-            dump($data);
             $transactionService->transactionConfirmed($data['uuid']);
         });
     }

@@ -39,15 +39,7 @@ class ApprovedTransaction extends Command
 
             foreach ($results as $rs) {
                 try {
-                    $rs->status = TransactionService::TRANSACTION_APPROVED;
-                    $rs->save();
-
-                    match($rs->moviment) {
-                        'credit' => $rs->account_from->increment('amount', $rs->amount),
-                        'debit' => $rs->account_from->decrement('amount', $rs->amount),
-                    };
-
-                    $rs->account_from->save();
+                    $transactionService->transactionApprroved($rs);
                     DB::commit();
                 } catch (Exception $e) {
                     DB::rollBack();
