@@ -43,16 +43,17 @@ class NewTransactionConfirmed extends Command
                 'account_from_id' => $objPix->account->id,
                 'amount' => $data['amount'],
                 'moviment' => 'credit',
-                'status' => TransactionService::TRANSACTION_PENDING,
+                'status' => TransactionService::TRANSACTION_CONFIRMED,
                 'description' => $data['description'],
                 'cancel_description' => $data['cancel_description'],
             ];
 
-            $objTransaction = Transaction::create($newData);
+            Transaction::create($newData);
 
-            app('pubsub')->publish(['confirm_transaction'], [
-                'external_id' => $data['uuid'],
-                'internal_id' => $objTransaction->uuid
+            app('pubsub')->publish([
+                'confirm_transaction.' . $data['pix_key']['account']['bank']['uuid'] . '.confirmed'
+            ], [
+                'external_id' => $data['uuid']
             ]);
         });
     }

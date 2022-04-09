@@ -39,10 +39,10 @@ final class TransactionService
         $obj->status = TransactionService::TRANSACTION_CONFIRMED;
         $obj->save();
 
-        app('pubsub')->publish('approved_transaction', [
+        /*app('pubsub')->publish('approved_transaction', [
             'external_id' => $uuid,
             'internal_id' => $obj->uuid,
-        ]);
+        ]);*/
     }
 
     public function transactionApprroved(Transaction $rs)
