@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\PixKeyService;
+use App\Services\TransactionService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
@@ -18,6 +19,8 @@ class Transaction extends Model
         'pix_key_key',
         'amount',
         'description',
+        'status',
+        'moviment',
     ];
 
     public static function rulesCreated(): array|null
@@ -30,10 +33,12 @@ class Transaction extends Model
         return [
             'external_id' => 'required|uuid',
             'account_from_id' => 'required',
-            'pix_key_kind' => 'required',
-            'pix_key_key' => 'required',
+            'pix_key_kind' => 'nullable',
+            'pix_key_key' => 'nullable',
             'amount' => 'required|min:0|numeric',
-            'description' => 'nullable|max:120'
+            'moviment' => 'nullable|in:debit,credit',
+            'description' => 'nullable|max:120',
+            'status' => 'nullable|in:' . implode(',', TransactionService::TRANSACTION_ALL),
         ];
     }
 

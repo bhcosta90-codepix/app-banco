@@ -22,6 +22,11 @@ final class PixKeyService
         ]);
     }
 
+    public function findByKind(string $kind, string $key)
+    {
+        return $this->repository->where('kind', $kind)->where('key', $key)->first();
+    }
+
     public function get($id)
     {
         return $this->repository->where('id', $id)->first();

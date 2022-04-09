@@ -13,6 +13,12 @@ final class TransactionService
     const TRANSACTION_CONFIRMED = 'confirmed';
     const TRANSACTION_APPROVED = 'approved';
 
+    const TRANSACTION_ALL = [
+        self::TRANSACTION_PENDING,
+        self::TRANSACTION_CONFIRMED,
+        self::TRANSACTION_APPROVED,
+    ];
+
     public function __construct(private Transaction $repository)
     {
         //
@@ -29,7 +35,14 @@ final class TransactionService
 
     public function transactionConfirmed(string $uuid)
     {
-        throw new Exception('do not implemented ' . __FUNCTION__);
+        $obj = $this->repository->where('external_id', $uuid)->where('status', self::TRANSACTION_PENDING)->firstOrFail();
+        $obj->status = TransactionService::TRANSACTION_CONFIRMED;
+        $obj->save();
+
+        app('pubsub')->publish('approved_transaction', [
+            'external_id' => $uuid,
+            'internal_id' => $obj->uuid,
+        ]);
     }
 
     public function transactionApprroved(string $uuid)
@@ -40,5 +53,10 @@ final class TransactionService
     public function find(string $uuid)
     {
         return $this->repository->where('uuid', $uuid)->first();
+    }
+
+    public function getAllByExternalId(string $uuid)
+    {
+        return $this->repository->where('external_id', $uuid)->get();
     }
 }

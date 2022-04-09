@@ -17,10 +17,10 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->uuid('external_id')->unique();
+            $table->uuid('external_id')->index();
             $table->foreignId('account_from_id')->constrained('accounts');
-            $table->string('pix_key_kind');
-            $table->string('pix_key_key');
+            $table->string('pix_key_kind')->nullable();
+            $table->string('pix_key_key')->nullable();
             $table->unsignedDouble('amount');
             $table->enum('moviment', ['debit', 'credit']);
             $table->string('status')->default(TransactionService::TRANSACTION_PENDING);

@@ -21,6 +21,25 @@ final class RabbitMQPubSub implements PubSubContract
 
     public function consume(string $queue, array $routingKey, object $action)
     {
-        throw new Exception('do not implemented');
+        Amqp::consume($queue, function ($message, $resolver) use ($action) {
+            $data = json_decode($message->body, true);
+
+            try {
+                $action($data);
+                $resolver->acknowledge($message);
+            } catch (Exception $e) {
+                $resolver->reject($message);
+                Log::critical([
+                    'class' => get_class($e),
+                    'data' => $data,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }, [
+            'routing' => $routingKey,
+            'exchange' => 'amq.topic',
+            'exchange_type' => 'topic',
+            'persistent' => true // required if you want to listen forever
+        ]);
     }
 }
