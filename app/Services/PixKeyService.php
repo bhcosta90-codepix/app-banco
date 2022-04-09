@@ -17,11 +17,11 @@ final class PixKeyService
 
     public function newPixKey(Account $account, string $kind = null, string $key = null)
     {
-        $data = $this->validate($d = [
+        $data = [
+            'account_id' => $account->id,
             'kind' => $kind,
             'key' => $key,
-            'account_id' => $account->id,
-        ], PixKey::rulesCreated($d));
+        ];
 
         return $this->repository->create($data);
     }
