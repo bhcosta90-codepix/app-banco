@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
     private function new()
     {
         $account = Account::factory([
+            'uuid' => '0204734b-3f3f-4356-8a30-359d01326e95',
             'external_id' => 'a1629637-c5e9-4a83-bd07-454b6c0a1e6b',
         ])->create();
 
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
         ])->create();
 
         $account = Account::factory([
+            'uuid' => '451eabe2-b334-4a45-a816-4ea4dfd20727',
             'external_id' => '58234d11-78f1-45c2-ad40-7c255390b818',
         ])->create();
 
@@ -50,6 +52,7 @@ class DatabaseSeeder extends Seeder
     private function new2()
     {
         $account = Account::factory([
+            'uuid' => 'f5a3a134-2fc9-4ad3-89ec-3cd097f7ff5f',
             'external_id' => '013903b5-a12c-4981-8fe0-60d37758b359',
         ])->create();
 
@@ -61,6 +64,7 @@ class DatabaseSeeder extends Seeder
         ])->create();
 
         $account = Account::factory([
+            'uuid' => '7cb9c838-f5e7-4335-8eea-a78932fcbdaf',
             'external_id' => '50809e5f-22dc-41e7-b95e-25e764bae71a',
         ])->create();
 
