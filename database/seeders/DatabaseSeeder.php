@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         match (config('codepix.credential')) {
-            'd349f80bacef812dac8f66bd0164ba17864a6a93' => $this->new2(),
+            'ef8e3bfa3d4e2af40c519487f19451f19d09f0a3' => $this->new2(),
             default => $this->new()
         };
     }
