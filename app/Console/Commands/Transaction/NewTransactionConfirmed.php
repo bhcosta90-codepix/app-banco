@@ -30,7 +30,7 @@ class NewTransactionConfirmed extends Command
      */
     public function handle(PixKeyService $pixKeyService)
     {
-        app('pubsub')->consume('queue_new_transaction_' . config('codepix.credential'), [
+        app('pubsub')->consume('queue_bank_transaction_' . config('codepix.credential'), [
             'new_transaction.' . config('codepix.credential') . '.created'
         ], function ($data) use ($pixKeyService) {
 
