@@ -5,17 +5,16 @@ namespace App\Console\Commands\Transaction;
 use App\Services\TransactionService;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ApprovedTransaction extends Command
+class CompletedTransaction extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'transaction:approved';
+    protected $signature = 'transaction:completed';
 
     /**
      * The console command description.
@@ -31,14 +30,13 @@ class ApprovedTransaction extends Command
      */
     public function handle(TransactionService $transactionService)
     {
-        app('pubsub')->consume('queue_bank_approved.' . config('codepix.credential'), [
-            'transaction.approved.' . config('codepix.credential')
+        app('pubsub')->consume('queue_bank_completed.' . config('codepix.credential'), [
+            'transaction.completed.' . config('codepix.credential')
         ], function ($data) use ($transactionService) {
             $rs = $transactionService->find($data['uuid']);
 
             if (!empty($rs)) {
-                $transactionService->transactionApprroved($rs);
-                app('pubsub')->publish(['transaction_completed'], $data);
+                $transactionService->transactionCompleted($rs);
             } else {
                 Log::channel('pubsub')->error('transaction ' . $data['uuid'] . ' do not exist');
             }

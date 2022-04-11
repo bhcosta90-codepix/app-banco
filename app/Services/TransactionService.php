@@ -12,11 +12,13 @@ final class TransactionService
     const TRANSACTION_PENDING = 'pending';
     const TRANSACTION_CONFIRMED = 'confirmed';
     const TRANSACTION_APPROVED = 'approved';
+    const TRANSACTION_COMPLETED = 'completed';
 
     const TRANSACTION_ALL = [
         self::TRANSACTION_PENDING,
         self::TRANSACTION_CONFIRMED,
         self::TRANSACTION_APPROVED,
+        self::TRANSACTION_COMPLETED,
     ];
 
     public function __construct(private Transaction $repository)
@@ -45,6 +47,14 @@ final class TransactionService
     public function transactionApprroved(Transaction $rs)
     {
         $rs->status = TransactionService::TRANSACTION_APPROVED;
+        $rs->save();
+
+        return $rs;
+    }
+
+    public function transactionCompleted(Transaction $rs)
+    {
+        $rs->status = TransactionService::TRANSACTION_COMPLETED;
         $rs->save();
 
         match($rs->moviment) {
