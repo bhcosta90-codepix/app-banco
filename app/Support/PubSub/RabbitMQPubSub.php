@@ -26,6 +26,7 @@ final class RabbitMQPubSub implements PubSubContract
 
             try {
                 if (app()->environment('local')) {
+                    Log::channel('pubsub')->info($message->getRoutingKey());
                     Log::channel('pubsub')->info($data);
                 }
 
