@@ -28,7 +28,7 @@ class ConfirmedTransaction extends Command
      */
     public function handle(TransactionService $transactionService)
     {
-        app('pubsub')->consume('queue_new_transaction_' . config('codepix.credential'), [
+        app('pubsub')->consume('queue_transaction_confirmed' . config('codepix.credential'), [
             'transaction.confirmed.' . config('codepix.credential')
         ], function ($data) use ($transactionService) {
             $objTransaction = $transactionService->getByExternalId($data['external_id'], TransactionService::TRANSACTION_PENDING);
