@@ -13,8 +13,8 @@ final class RabbitMQPubSub implements PubSubContract
         foreach ($routingKey as $route) {
             Amqp::publish($route, json_encode($data));
             if (app()->environment('local')) {
-                Log::info($route);
-                Log::info($data);
+                Log::channel('pubsub')->info($route);
+                Log::channel('pubsub')->info($data);
             }
         }
     }
