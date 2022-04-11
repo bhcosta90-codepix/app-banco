@@ -34,6 +34,9 @@ final class RabbitMQPubSub implements PubSubContract
                 $resolver->acknowledge($message);
             } catch (Exception $e) {
                 $resolver->reject($message);
+
+                throw $e;
+
                 Log::critical([
                     'class' => get_class($e),
                     'data' => $data,

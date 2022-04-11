@@ -51,7 +51,7 @@ class NewTransactionConfirmed extends Command
             app('pubsub')->publish([
                 'transaction.confirmed'
             ], [
-                'uuid' => (string) $obj->uuid,
+                'internal_id' => (string) $obj->uuid,
                 'external_id' => $data['uuid'],
             ]);
         });
