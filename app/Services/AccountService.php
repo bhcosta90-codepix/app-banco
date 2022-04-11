@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\{Account, Bank};
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 final class AccountService
 {
@@ -13,10 +15,23 @@ final class AccountService
         //
     }
 
-    public function newAccount(string $name = null, string $number = null, float $amount = null)
+    public function newAccount(string $name = null, float $amount = null)
     {
-        $dataAccountSync = $this->codePixService->newAccount($name, $number);
-        return $this->repository->create($dataAccountSync);
+        DB::beginTransaction();
+        try {
+            $ret = $this->repository->create([
+                'name' => $name,
+                'amount' => $amount,
+            ]);
+            $dataSync = $this->codePixService->newAccount($name, str_pad($ret->id, 6, "0", STR_PAD_LEFT));
+            $ret->external_id = $dataSync['external_id'];
+            $ret->save();
+            DB::commit();
+            return $ret;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function find(string $uuid)

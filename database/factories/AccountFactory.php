@@ -18,7 +18,6 @@ class AccountFactory extends Factory
     public function definition()
     {
         return [
-            'number' => rand(1000, 9999),
             'name' => "bank - " . $this->faker->name(),
         ];
     }
