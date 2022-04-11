@@ -33,17 +33,12 @@ class ApprovedTransaction extends Command
         app('pubsub')->consume('queue_transaction_approved' . config('codepix.credential'), [
             'transaction.approved.' . config('codepix.credential')
         ], function ($data) use ($transactionService) {
-            if (!empty($data['internal_id'])) {
-                $rs = $transactionService->find($data['internal_id']);
-            }
+            $rs = $transactionService->find($data['uuid']);
 
-            if (!empty($data['external_id'])) {
-                $rs = $transactionService->getByExternalId($data['external_id'], TransactionService::TRANSACTION_CONFIRMED);
-            }
-
-            if(isset($rs)){
+            if (!empty($rs)) {
                 $transactionService->transactionApprroved($rs);
             }
+
         });
     }
 }
