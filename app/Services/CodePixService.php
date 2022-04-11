@@ -63,7 +63,13 @@ final class CodePixService
         };
     }
 
-    public function newTransaction(Account $account, string $kind = null, string $key = null, float $amount = null)
+    public function newTransaction(
+        Account $account,
+        string $kind = null,
+        string $key = null,
+        float $amount = null,
+        string $description = null
+    )
     {
 
         if($kind == 'random' && empty($key)) {
@@ -75,6 +81,7 @@ final class CodePixService
         ])->post($this->endpoint . "/api/transaction/{$kind}/{$key}", $data = [
             'account' => $account->external_id,
             'amount' => $amount,
+            'description' => $description,
         ]);
 
         return match ($response->status()) {

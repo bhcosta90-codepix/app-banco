@@ -24,12 +24,13 @@ final class TransactionService
         //
     }
 
-    public function newTransaction(Account $account, $kind, $key, array $data = [])
+    public function newTransaction(Account $account, string $kind, string $key, string $description, array $data = [])
     {
         return $this->repository->create([
             'account_from_id' => $account->id,
             'pix_key_kind' => $kind,
             'pix_key_key' => $key,
+            'description' => $description,
         ] + $data);
     }
 

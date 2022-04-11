@@ -19,8 +19,8 @@ class TransactionController extends Controller
         AccountService $accountService
     ) {
         $objAccount = $accountService->find($account);
-        $data = $codePixService->newTransaction($objAccount, $request->kind, $request->key, $request->amount);
-        $obj = $transactionService->newTransaction($objAccount, $request->kind, $request->key, $data);
+        $data = $codePixService->newTransaction($objAccount, $request->kind, $request->key, $request->amount, $request->description);
+        $obj = $transactionService->newTransaction($objAccount, $request->kind, $request->key, $request->description, $data);
 
         return new TransactionResource($obj);
     }
