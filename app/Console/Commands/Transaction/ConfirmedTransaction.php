@@ -31,12 +31,13 @@ class ConfirmedTransaction extends Command
         app('pubsub')->consume('queue_new_transaction_' . config('codepix.credential'), [
             'transaction.confirmed.' . config('codepix.credential')
         ], function ($data) use ($transactionService) {
-            $results = $transactionService->getAllByExternalId($data['uuid'], TransactionService::TRANSACTION_PENDING);
-            foreach ($results as $objTransaction) {
-                $transactionService->transactionConfirmed($objTransaction);
-            }
+            $objTransaction = $transactionService->getByExternalId($data['uuid'], TransactionService::TRANSACTION_PENDING);
+            $transactionService->transactionConfirmed($objTransaction);
 
-            app('pubsub')->publish(['transaction_approved'], $data);
+            app('pubsub')->publish(['transaction_approved'], [
+                'internal_id' => $objTransaction->uuid,
+                'external_id' => $objTransaction->external_id,
+            ]);
         });
     }
 }
