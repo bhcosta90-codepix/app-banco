@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         match (config('codepix.credential')) {
             'ef8e3bfa3d4e2af40c519487f19451f19d09f0a3' => $this->new2(),
+            '31a2cbedfb091510d8a18e3031dff49bbd9c729c' => $this->new3(),
             default => $this->new()
         };
     }
@@ -73,6 +74,33 @@ class DatabaseSeeder extends Seeder
             'external_id' => '064df7c3-c86e-4d05-a630-fb732698209e',
             'kind' => 'random',
             'key' => '33047865-fbb2-4a3e-a14d-4287f7abfd37'
+        ])->create();
+    }
+
+    private function new3()
+    {
+        $account = Account::factory([
+            'uuid' => 'f3db6eb0-0983-472e-911d-714b0b7d03db',
+            'number' => str_pad('1', 6, '0', STR_PAD_LEFT),
+        ])->create();
+
+        PixKey::factory([
+            'account_id' => $account->id,
+            'uuid' => '147e0759-4b99-4bd8-a941-d0b5d1ce2a45',
+            'kind' => 'random',
+            'key' => '49806ffe-c8c0-4a73-9083-18b6e94a408e'
+        ])->create();
+
+        $account = Account::factory([
+            'uuid' => 'becb8df8-d12c-49d1-ba29-acc2e66ba372',
+            'number' => str_pad('2', 6, '0', STR_PAD_LEFT),
+        ])->create();
+
+        PixKey::factory([
+            'account_id' => $account->id,
+            'uuid' => '7dc0789d-c0ab-465a-b281-0f01cf858ce7',
+            'kind' => 'random',
+            'key' => '60bcbdfa-03ce-406a-9686-6a3d018a692c'
         ])->create();
     }
 }
