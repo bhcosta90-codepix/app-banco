@@ -30,7 +30,7 @@ class ApprovedTransaction extends Command
      */
     public function handle(TransactionService $transactionService)
     {
-        app('pubsub')->consume('queue_transaction_approved' . config('codepix.credential'), [
+        app('pubsub')->consume('queue_transaction_approved.' . config('codepix.credential'), [
             'transaction.approved.' . config('codepix.credential')
         ], function ($data) use ($transactionService) {
             $rs = $transactionService->find($data['uuid']);
