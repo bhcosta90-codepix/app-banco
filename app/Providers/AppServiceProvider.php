@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
         if (app()->environment('local')) {
             DB::listen(function ($query) {
-                Log::info($this->bindQueryLog($query->sql, $query->bindings));
+                Log::channel('sql')->info($this->bindQueryLog($query->sql, $query->bindings));
             });
         }
     }

@@ -26,7 +26,7 @@ final class RabbitMQPubSub implements PubSubContract
 
             try {
                 if (app()->environment('local')) {
-                    Log::info(['rabbitmq', $data]);
+                    Log::channel('pubsub')->info($data);
                 }
 
                 $action($data);

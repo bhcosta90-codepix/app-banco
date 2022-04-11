@@ -32,7 +32,7 @@ final class DatabasePubSub implements PubSubContract
                 $data = json_decode($rs->data, true);
 
                 if (app()->environment('local')) {
-                    Log::info(['database', $data]);
+                    Log::channel('pubsub')->info($data);
                 }
 
                 try {
