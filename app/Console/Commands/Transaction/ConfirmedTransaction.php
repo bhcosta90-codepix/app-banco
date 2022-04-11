@@ -32,13 +32,15 @@ class ConfirmedTransaction extends Command
             'transaction.confirmed.' . config('codepix.credential')
         ], function ($data) use ($transactionService) {
             $objTransaction = $transactionService->getByExternalId($data['external_id'], TransactionService::TRANSACTION_PENDING);
-            $transactionService->transactionConfirmed($objTransaction);
+            if (!empty($objTransaction)) {
+                $transactionService->transactionConfirmed($objTransaction);
 
-            app('pubsub')->publish(['transaction_approved'], [
-                'internal_id' => $data['internal_id'],
-                'external_id' => $objTransaction->uuid,
-                'transaction_id' => $data['external_id'],
-            ]);
+                app('pubsub')->publish(['transaction_approved'], [
+                    'internal_id' => $data['internal_id'],
+                    'external_id' => $objTransaction->uuid,
+                    'transaction_id' => $data['external_id'],
+                ]);
+            }
         });
     }
 }

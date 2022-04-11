@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/account', [AccountController::class, 'store']);
+Route::get('/account/{uuid}', [AccountController::class, 'show']);
 Route::post('/{account}/transaction', [TransactionController::class, 'store']);
 
 Route::post('/pixkey/{account}', [PixKeyController::class, 'store']);
