@@ -39,7 +39,7 @@ class ApprovedTransaction extends Command
             if (!empty($rs)) {
                 $transactionService->transactionApprroved($rs);
             } else {
-                Log::error('transaction ' . $data['uuid'] . ' do not exist');
+                Log::channel('pubsub')->error('transaction ' . $data['uuid'] . ' do not exist');
             }
 
         });
